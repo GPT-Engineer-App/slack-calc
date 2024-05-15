@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container, VStack, HStack, Button, Input, Text } from "@chakra-ui/react";
-import { FaPlus, FaMinus, FaTimes, FaDivide, FaEquals, FaBackspace } from "react-icons/fa";
+import { FaPlus, FaMinus, FaTimes, FaDivide, FaEquals, FaBackspace, FaSquareRootAlt, FaPercentage } from "react-icons/fa";
 
 const Index = () => {
   const [input, setInput] = useState("");
@@ -21,7 +21,8 @@ const Index = () => {
 
   const handleCalculate = () => {
     try {
-      setResult(eval(input)); // Note: eval is used here for simplicity, but it's not recommended for production use due to security risks.
+      const sanitizedInput = input.replace(/sin/g, "Math.sin").replace(/cos/g, "Math.cos").replace(/tan/g, "Math.tan").replace(/log/g, "Math.log").replace(/sqrt/g, "Math.sqrt");
+      setResult(eval(sanitizedInput));
     } catch (error) {
       setResult("Error");
     }
@@ -32,6 +33,23 @@ const Index = () => {
       <VStack spacing={4} width="100%">
         <Input value={input} isReadOnly placeholder="0" size="lg" textAlign="right" />
         <Text fontSize="2xl">{result}</Text>
+        <HStack spacing={2} width="100%">
+          <Button onClick={() => handleInput("sin(")} flex="1">
+            sin
+          </Button>
+          <Button onClick={() => handleInput("cos(")} flex="1">
+            cos
+          </Button>
+          <Button onClick={() => handleInput("tan(")} flex="1">
+            tan
+          </Button>
+          <Button onClick={() => handleInput("log(")} flex="1">
+            log
+          </Button>
+          <Button onClick={() => handleInput("sqrt(")} flex="1">
+            <FaSquareRootAlt />
+          </Button>
+        </HStack>
         <HStack spacing={2} width="100%">
           <Button onClick={handleClear} colorScheme="red" flex="1">
             C
